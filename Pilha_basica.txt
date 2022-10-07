@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <stdlib.h>
+/*---------------------------------------PILHA DINAMICA------------------------------------*/
+typedef struct NO{ 
+    int dado;
+    struct NO *prox;
+}NO;
+
+typedef struct PILHA
+{
+    NO *topo;
+}PILHA;
+
+void incializar_pilha(PILHA *p){
+    p->topo=NULL;
+
+}
+
+void empilhamento(int dado , PILHA *p){
+    NO *ptr = (NO*) malloc(sizeof(NO));//alocação do novo no
+
+    if (ptr==NULL)
+    {
+        printf("Erro de alocação do nó\n");
+        return;
+    } else {
+        ptr->dado = dado;
+        ptr-> prox = p->topo;
+        p->topo = ptr;
+    }
+
+}
+
+int desempliha(PILHA *p){
+    NO* ptr = p->topo;
+    int dado;
+
+    if (ptr==NULL)
+    {
+        printf("Pilha Vazia\n");
+        return;
+    } else {
+
+        p->topo = ptr->prox;
+        ptr->prox = NULL;
+        dado = ptr->dado;
+        free(ptr);
+        return dado;
+    }
+}
+
+void imprime_Pilha(PILHA *p){
+    NO * ptr = p->topo;
+    if (ptr ==  NULL )
+    {
+        printf("Pilha vazia.\n");
+        return;
+    } else {
+        while (ptr != NULL){
+            printf("%d" , ptr->dado);
+            ptr = ptr->prox;
+        }
+        printf("\n");
+    }
+}
+
+int main(int argc, char const *argv[]){
+
+    PILHA *p1 = (PILHA*) malloc(sizeof(PILHA));
+    if(p1 == NULL){
+        printf("Erro de alocação da pilha\n");
+        exit(0);
+
+    } else {
+        incializar_pilha(p1);
+        empilhamento(10,p1);
+        empilhamento(20,p1);
+        empilhamento(30,p1);
+
+        imprime_Pilha(p1);
+
+        printf("Tentando desempilhar - resultado: %d\n" ,desempliha(p1) ); 
+                imprime_Pilha(p1);
+
+        printf("Tentando desempilhar - resultado: %d\n" ,desempliha(p1) ); 
+                imprime_Pilha(p1);
+
+        printf("Tentando desempilhar - resultado: %d\n" ,desempliha(p1) ); 
+                imprime_Pilha(p1);
+
+    }
+
+    return 0;
+}
+
